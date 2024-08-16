@@ -20,6 +20,7 @@
     "start": "ds build --watch",
     "test": "ds test",
     "lint": "ds lint",
+    "format": "prettier --write .",
     "docs": "./bin/ts-readme.js --header-depth 4 --matcher TS-README-GENERATED"
   },
   "files": [
