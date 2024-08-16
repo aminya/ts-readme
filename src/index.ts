@@ -35,9 +35,19 @@ interface TypeScriptDocument {
 
 /** Return the jsDoc comment if there is one */
 function getJsDocComment(statement: ts.Node) {
-  return (statement as any).jsDoc && (statement as any).jsDoc[0]
-    ? (statement as any).jsDoc[0].comment
-    : '';
+  if (
+    !(
+      'jsDoc' in statement &&
+      Array.isArray(statement.jsDoc) &&
+      ts.isJSDoc(statement.jsDoc[0])
+    )
+  ) {
+    return '';
+  }
+
+  return Array.isArray(statement.jsDoc[0].comment)
+    ? statement.jsDoc[0].comment.join(' ')
+    : (statement.jsDoc[0].comment as string | undefined ?? '');
 }
 
 /** Determine if a constant is a function decl */
@@ -190,9 +200,10 @@ function getDocs(filenames: string[]): TypeScriptDocument[] {
             | ts.ClassDeclaration
             | ts.InterfaceDeclaration =>
             Boolean(
-              s.modifiers &&
+              'modifiers' in s &&
+                Array.isArray(s.modifiers) &&
                 // This determines if it is exported
-                s.modifiers.find(
+                (s.modifiers as ts.ModifierLike[]).find(
                   (e) => e.kind === ts.SyntaxKind.ExportKeyword,
                 ) &&
                 (ts.isVariableStatement(s) ||
@@ -216,7 +227,10 @@ function getDocs(filenames: string[]): TypeScriptDocument[] {
             .filter(ts.isJSDocParameterTag)
             .map((doc: ts.JSDocParameterTag) => ({
               name: print(doc.name),
-              description: doc.comment ? doc.comment.replace(/^- /, '') : '',
+              description:
+                typeof doc.comment === 'string'
+                  ? doc.comment.replace(/^- /, '')
+                  : '',
               type: getParamType(doc, statement),
             }));
 
@@ -344,7 +358,7 @@ export default async function generate(options: GenerateOptions = {}) {
 
     fs.writeFileSync(
       './README.md',
-      prettier.format(readme, { parser: 'markdown', singleQuote: true }),
+      await prettier.format(readme, { parser: 'markdown', singleQuote: true }),
     );
   }
 }
