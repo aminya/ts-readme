@@ -1,5 +1,5 @@
 import { app, Command } from 'command-line-application';
-import generate, { createMatcher } from '.';
+import generate, { createMatcher } from './index.js';
 
 const tsReadme: Command = {
   name: 'ts-readme',
