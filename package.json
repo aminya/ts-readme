@@ -30,22 +30,22 @@
     "!__tests__"
   ],
   "dependencies": {
-    "command-line-application": "^0.9.6",
-    "fast-glob": "^3.1.1",
-    "prettier": "1.19.1"
+    "command-line-application": "^0.10.1",
+    "fast-glob": "^3.3.2",
+    "prettier": "3.3.3"
   },
   "peerDependencies": {
     "typescript": ">= 3.x"
   },
   "devDependencies": {
-    "@auto-it/all-contributors": "9.49.4",
-    "@auto-it/first-time-contributor": "9.49.4",
-    "@design-systems/cli": "1.1.0",
-    "@types/prettier": "^1.19.0",
-    "auto": "9.49.4",
-    "husky": "3.0.1",
-    "lint-staged": "9.2.1",
-    "typescript": "3.7.2"
+    "@auto-it/all-contributors": "11.2.0",
+    "@auto-it/first-time-contributor": "11.2.0",
+    "@design-systems/cli": "4.15.4",
+    "@types/prettier": "^3.0.0",
+    "auto": "11.2.0",
+    "husky": "9.1.4",
+    "lint-staged": "15.2.9",
+    "typescript": "5.5.4"
   },
   "prettier": {
     "singleQuote": true
