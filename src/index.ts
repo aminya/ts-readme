@@ -351,12 +351,12 @@ export default async function generate(options: GenerateOptions = {}) {
   const docs = await getAllDocs(pattern);
   const markdown = docs.map((doc) => generateMarkdown(doc, headerDepth));
 
-  let readme = fs.readFileSync('./README.md', 'utf8');
+  let readme = await fs.promises.readFile('./README.md', 'utf8');
 
   if (readme.match(matcher)) {
     readme = readme.replace(matcher, `$1${markdown.join('\n')}$3`);
 
-    fs.writeFileSync(
+    await fs.promises.writeFile(
       './README.md',
       await prettier.format(readme, { parser: 'markdown', singleQuote: true }),
     );
